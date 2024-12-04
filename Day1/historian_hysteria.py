@@ -16,7 +16,7 @@ def load_input_file(filename):
 def add_up_difference_between_two_numbers(left_list, right_list):
     list_of_differences = []
 
-    for i in range(0, len(left_list)-1):
+    for i in range(0, len(left_list)):
         list_of_differences.append(abs(left_list[i] - right_list[i]))
 
     return sum(list_of_differences)
