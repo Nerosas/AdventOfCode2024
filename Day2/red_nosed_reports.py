@@ -48,7 +48,7 @@ def count_number_of_safe_reports(reports):
         all_increasing = check_levels_all_increasing(report)
         all_decreasing = check_levels_all_decreasing(report)
 
-        if True in [all_increasing, all_decreasing]:
+        if all_increasing or all_decreasing:
             if check_levels_all_changing_gradually(report):
                 number_of_safe_reports += 1
 
