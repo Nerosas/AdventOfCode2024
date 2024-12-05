@@ -22,7 +22,17 @@ def add_up_difference_between_two_numbers(left_list, right_list):
     return sum(list_of_differences)
 
 
+def calculate_similarity_score(left_list, right_list):
+    similarity_score = 0
+
+    for number in left_list:
+        number = number * right_list.count(number)
+        similarity_score += number
+
+    return similarity_score
+
+
 if __name__ == '__main__':
-    list_1, list_2 = load_input_file('input.txt')
-    answer = add_up_difference_between_two_numbers(list_1, list_2)
-    print(answer)
+    left_list, right_list = load_input_file('input.txt')
+    sum_of_differences = add_up_difference_between_two_numbers(left_list, right_list)
+    similarity_score = calculate_similarity_score(left_list, right_list)
