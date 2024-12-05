@@ -45,14 +45,35 @@ def count_number_of_safe_reports(reports):
     number_of_safe_reports = 0
 
     for report in reports:
-        all_increasing = check_levels_all_increasing(report)
-        all_decreasing = check_levels_all_decreasing(report)
-
-        if all_increasing or all_decreasing:
-            if check_levels_all_changing_gradually(report):
-                number_of_safe_reports += 1
+        if test_report_safety(report) == True:
+            number_of_safe_reports += 1
+        elif account_for_tolerance(report) == True:
+            number_of_safe_reports += 1
 
     return number_of_safe_reports
+
+
+def test_report_safety(report):
+    all_increasing = check_levels_all_increasing(report)
+    all_decreasing = check_levels_all_decreasing(report)
+
+    if all_increasing or all_decreasing:
+        if check_levels_all_changing_gradually(report):
+            return True
+    
+    return False
+
+
+def account_for_tolerance(report):
+    for i in range(len(report)):
+        test_safety_adjustments = report.copy()
+
+        del test_safety_adjustments[i]
+        
+        if test_report_safety(test_safety_adjustments) == True:
+            return True
+        
+    return False
 
 
 if __name__ == '__main__':
