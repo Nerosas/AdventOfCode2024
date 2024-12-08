@@ -27,6 +27,7 @@ def execute_mul_command(valid_command):
 def add_up_results(valid_commands):
     total = 0
     do = True
+    
     for command in valid_commands:
         if command == "do()":
             do = True
