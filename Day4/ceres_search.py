@@ -7,74 +7,48 @@ def load_input_file(filename):
     
     for i in range(len(input)):
         input[i] = input[i].rstrip()
+        input[i] = list(input[i])
 
     return input
 
 
-def search_horizontal(line):
-    count = 0
+def count_four_letter_word_occurrences(grid, word):
+    rows = len(grid)
+    cols = len(grid[0])
 
-    for i in range(len(line)):
-        if i < len(line) - 4:
-            if line[i:i+4] == ("XMAS" or "SAMX"):
-                count += 1
+    # Helper function to check a word in a given direction
+    def check_word(x, y, dx, dy):
+        for i in range(4):
+            new_x = x + i * dx
+            new_y = y + i * dy
+            if new_x < 0 or new_x >= rows or new_y < 0 or new_y >= cols or grid[new_x][new_y] != word[i]:
+                return False
+        return True
 
-    return count
+    # Variable to count occurrences of the word
+    word_count = 0
 
+    # Iterate through each cell in the grid
+    for i in range(rows):
+        for j in range(cols):
+            # For each direction: right, left, down, up, diagonal right-down, diagonal left-down, diagonal right-up, diagonal left-up
+            directions = [(0, 1), (0, -1), (1, 0), (-1, 0), (1, 1), (1, -1), (-1, 1), (-1, -1)]
 
-def search_vertical(input):
-    count = 0
+            for dx, dy in directions:
+                if check_word(i, j, dx, dy):
+                    word_count += 1
 
-    for i in range(len(input)-4):
-        for j in range(len(input[i])):
-            string_builder = ''
-
-            for k in range(4):
-                string_builder += input[i+k][j]
-
-            if string_builder == ("XMAS" or "SAMX"):
-                count += 1
-    
-    return count
-
-
-def search_diagonal(input):
-    count = 0
-
-    #search in south-east and north-west direction
-    for i in range(len(input)-4):
-        for j in range(len(input)-4):
-            string_builder = ''
-
-            for k in range(4):
-                string_builder += input[i+k][j+k]
-
-            if string_builder == ("XMAS" or "SAMX"):
-                count += 1
-
-    #search in south-west and north-east direction
-    for i in range(len(input)-4):
-        for j in range(len(input)-4):
-            string_builder = ''
-
-            for k in range(4):
-                string_builder += input[i+k][j-k]
-
-            if string_builder == ("XMAS" or "SAMX"):
-                count += 1
-
-    return count
+    return word_count
 
 
+if __name__ == '__main__':
+    grid = load_input_file("input.txt")
 
-if __name__ == "__main__":
-    wordsearch = load_input_file("input.txt")
-    count = 0
+    word = 'XMAS'
 
-    for line in wordsearch:
-        count += search_horizontal(line)
+    occurrences = count_four_letter_word_occurrences(grid, word)
 
-    count += search_vertical(wordsearch)
-    count += search_diagonal(wordsearch)
-
-    print(count)
+    if occurrences > 0:
+        print(f"Word '{word}' found {occurrences} time(s).")
+    else:
+        print(f"Word '{word}' not found.")
